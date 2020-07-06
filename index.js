@@ -15,7 +15,7 @@ export const login = async ({ username, password }) => {
 
 export const logout = async () => {
   try {
-    await app.currentUser?.logOut();
+    await (app.currentUser || {}).logOut();
   } catch (err) {
     console.log(err.message);
   }
@@ -35,7 +35,8 @@ export const checkError = (error) => {
   return Promise.resolve();
 };
 
-export const getPermissions = async () => app.currentUser?.customData;
+export const getPermissions = async () =>
+  (app.currentUser || {}).customData || {};
 
 export default (app, overrides = {}) => ({
   login,
