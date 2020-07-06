@@ -19,7 +19,7 @@ const dataProvider = buildMongoDbRealmAuthProvider(app);
 
 ```javascript
 import buildMongoDbRealmAuthProvider, {
-  login // We export the individual default implementations...
+  login // We export the individual default implementations as factories...
 } from "ra-auth-mongodb-realm";
 
 import * as Realm from "realm-web";
@@ -35,7 +35,7 @@ const dataProvider = buildMongoDbRealmAuthProvider(app, {
     }
 
     // ...so you can reuse it as needed
-    return login({ username, password });
+    return login(app)({ username, password });
   }
 });
 ```

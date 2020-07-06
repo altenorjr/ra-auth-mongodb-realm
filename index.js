@@ -1,6 +1,6 @@
 import * as Realm from "realm-web";
 
-export const login = async ({ username, password }) => {
+export const login = (app) => async ({ username, password }) => {
   const credentials = Realm.Credentials.emailPassword(username, password);
 
   try {
@@ -13,7 +13,7 @@ export const login = async ({ username, password }) => {
   }
 };
 
-export const logout = async () => {
+export const logout = (app) => async () => {
   try {
     await (app.currentUser || {}).logOut();
   } catch (err) {
@@ -21,13 +21,13 @@ export const logout = async () => {
   }
 };
 
-export const checkAuth = async () => {
+export const checkAuth = (app) => async () => {
   const currentUser = app.currentUser;
 
   return currentUser ? Promise.resolve() : Promise.reject();
 };
 
-export const checkError = (error) => {
+export const checkError = (app) => (error) => {
   const status = error.statusCode;
   if (status === 401) {
     return Promise.reject();
@@ -35,14 +35,14 @@ export const checkError = (error) => {
   return Promise.resolve();
 };
 
-export const getPermissions = async () =>
+export const getPermissions = (app) => async () =>
   (app.currentUser || {}).customData || {};
 
 export default (app, overrides = {}) => ({
-  login,
-  logout,
-  checkAuth,
-  checkError,
-  getPermissions,
+  login: login(app),
+  logout: logout(app),
+  checkAuth: checkAuth(app),
+  checkError: checkError(app),
+  getPermissions: getPermissions(app),
   ...overrides,
 });
