@@ -22,9 +22,11 @@ export const logout = (app) => async () => {
 };
 
 export const checkAuth = (app) => async () => {
-  const currentUser = app.currentUser;
+  if (!app.currentUser) {
+    return Promise.reject();
+  }
 
-  return currentUser ? Promise.resolve() : Promise.reject();
+  return app.currentUser.refreshAccessToken();
 };
 
 export const checkError = (app) => (error) => {
