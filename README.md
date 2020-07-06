@@ -40,4 +40,4 @@ const dataProvider = buildMongoDbRealmAuthProvider(app, {
 });
 ```
 
-Read more about React Admin's implementation
+Read more about React Admin's Authentication Providers
