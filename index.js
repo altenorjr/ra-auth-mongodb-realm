@@ -22,11 +22,11 @@ export const logout = (app) => async () => {
 };
 
 export const checkAuth = (app) => async () => {
-  if (!app.currentUser) {
-    return Promise.reject();
+  if (app.currentUser) {
+    return Promise.resolve();
   }
 
-  return app.currentUser.refreshAccessToken();
+  return Promise.reject();
 };
 
 export const checkError = (app) => (error) => {
@@ -37,8 +37,21 @@ export const checkError = (app) => (error) => {
   return Promise.resolve();
 };
 
-export const getPermissions = (app) => async () =>
-  (app.currentUser || {}).customData || {};
+let isFirstTime = true;
+
+export const getPermissions = (app) => async () => {
+  if (!app.currentUser) {
+    return Promise.reject();
+  }
+
+  if (isFirstTime) {
+    await app.currentUser.refreshAccessToken();
+
+    isFirstTime = false;
+  }
+
+  return Promise.resolve(app.currentUser.customData);
+};
 
 export default (app, overrides = {}) => ({
   login: login(app),
