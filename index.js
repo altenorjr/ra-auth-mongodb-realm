@@ -15,9 +15,19 @@ export const login = (app) => async ({ username, password }) => {
 
 export const logout = (app) => async () => {
   try {
+    const logOut = (app.currentUser || {}).logOut;
+
+    if (typeof logOut !== "function") {
+      return Promise.resolve();
+    }
+
     await (app.currentUser || {}).logOut();
+
+    return Promise.resolve();
   } catch (err) {
     console.log(err.message);
+
+    return Promise.reject();
   }
 };
 
