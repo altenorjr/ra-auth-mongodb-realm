@@ -27,7 +27,7 @@ export const logout = (app) => async () => {
   } catch (err) {
     console.log(err.message);
 
-    return Promise.reject();
+    return Promise.resolve();
   }
 };
 
