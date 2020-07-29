@@ -25,7 +25,7 @@ export const logout = (app) => async () => {
 
     return Promise.resolve();
   } catch (err) {
-    console.log(err.message);
+    console.warn(err.message);
 
     return Promise.resolve();
   }
@@ -54,11 +54,11 @@ export const getPermissions = (app) => async () => {
     return Promise.reject();
   }
 
-  if (isFirstTime) {
-    await app.currentUser.refreshAccessToken();
+  // if (isFirstTime) {
+  //   await app.currentUser.refreshAccessToken();
 
-    isFirstTime = false;
-  }
+  //   isFirstTime = false;
+  // }
 
   return Promise.resolve(app.currentUser.customData);
 };
