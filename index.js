@@ -54,11 +54,15 @@ export const getPermissions = (app) => async () => {
     return Promise.reject();
   }
 
-  // if (isFirstTime) {
-  //   await app.currentUser.refreshAccessToken();
+  if (isFirstTime) {
+    try {
+      await app.currentUser.refreshAccessToken();
+    } catch (err) {
+      console.warn(err);
+    }
 
-  //   isFirstTime = false;
-  // }
+    isFirstTime = false;
+  }
 
   return Promise.resolve(app.currentUser.customData);
 };
