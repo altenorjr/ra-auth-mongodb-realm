@@ -1,4 +1,7 @@
 import * as Realm from "realm-web";
+import BSON from "bson";
+
+window.Realm = Realm;
 
 export const login = (app) => async ({ username, password }) => {
   const credentials = Realm.Credentials.emailPassword(username, password);
@@ -64,7 +67,11 @@ export const getPermissions = (app) => async () => {
     isFirstTime = false;
   }
 
-  return Promise.resolve(app.currentUser.customData);
+  const data = BSON.EJSON.deserialize(app.currentUser.customData);
+
+  console.log({ permissions: data });
+
+  return Promise.resolve(data);
 };
 
 export default (app, overrides = {}) => ({
