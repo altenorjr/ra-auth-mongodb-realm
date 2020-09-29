@@ -12,7 +12,11 @@ export const login = (app) => async ({ username, password }) => {
 
     return user;
   } catch (err) {
+    console.log({ err });
+
     console.error("Falha no Login", err);
+
+    throw err;
   }
 };
 
