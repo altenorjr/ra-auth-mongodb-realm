@@ -54,7 +54,7 @@ let isFirstTime = true;
 
 export const getPermissions = (app) => async () => {
   if (!app.currentUser) {
-    return Promise.resolve(null);
+    return Promise.resolve({});
   }
 
   if (isFirstTime) {
