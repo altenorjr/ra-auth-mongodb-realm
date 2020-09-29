@@ -54,14 +54,14 @@ let isFirstTime = true;
 
 export const getPermissions = (app) => async () => {
   if (!app.currentUser) {
-    return Promise.reject();
+    return Promise.resolve(null);
   }
 
   if (isFirstTime) {
     try {
       await app.currentUser.refreshAccessToken();
     } catch (err) {
-      console.warn(err);
+      return Promise.reject(err);
     }
 
     isFirstTime = false;
