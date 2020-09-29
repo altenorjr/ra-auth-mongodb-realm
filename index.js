@@ -6,18 +6,9 @@ window.Realm = Realm;
 export const login = (app) => async ({ username, password }) => {
   const credentials = Realm.Credentials.emailPassword(username, password);
 
-  try {
-    // Authenticate the user
-    const user = await app.logIn(credentials);
+  const user = await app.logIn(credentials);
 
-    return user;
-  } catch (err) {
-    console.log({ err });
-
-    console.error("Falha no Login", err);
-
-    throw err;
-  }
+  return user;
 };
 
 export const logout = (app) => async () => {
