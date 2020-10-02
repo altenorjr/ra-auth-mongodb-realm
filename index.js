@@ -64,8 +64,6 @@ export const getPermissions = (app) => async () => {
 
   const data = BSON.EJSON.deserialize(app.currentUser.customData);
 
-  console.log({ permissions: data });
-
   return Promise.resolve(data);
 };
 
