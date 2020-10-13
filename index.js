@@ -1,8 +1,6 @@
 import * as Realm from "realm-web";
 import BSON from "bson";
 
-window.Realm = Realm;
-
 export const login = (app) => async ({ username, password }) => {
   const credentials = Realm.Credentials.emailPassword(username, password);
 
