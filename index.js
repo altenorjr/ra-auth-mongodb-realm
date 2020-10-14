@@ -37,22 +37,22 @@ export const checkError = (app) => (error) => {
 
 let isFirstTime = true;
 
-export const getPermissions = (app) => async () => {
+export const getPermissions = (app) => async (force) => {
   if (!app.currentUser) {
     return Promise.resolve({});
   }
 
-  if (isFirstTime) {
+  if (isFirstTime || force) {
     try {
       await app.currentUser.refreshAccessToken();
     } catch (err) {
-      return Promise.reject(err);
+      console.warn(err);
     }
 
     isFirstTime = false;
   }
 
-  const data = BSON.EJSON.deserialize(app.currentUser.customData);
+  const data = BSON.EJSON.deserialize((app.currentUser || {}).customData || {});
 
   return Promise.resolve(data);
 };
